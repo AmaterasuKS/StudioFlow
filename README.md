@@ -95,25 +95,29 @@ If credentials were changed during development, update this section with your fi
 
 ## Screenshots
 
-Replace image paths below with your own files (for example: `./docs/screenshots/landing.png`).
-
 ### Landing Page
-![Landing Page](./docs/screenshots/landing.png)
+<img width="1903" height="994" alt="image" src="https://github.com/user-attachments/assets/0c8e149d-1ea1-479b-92bd-0d255f45c5d7" />
+
 
 ### Login Page
-![Login Page](./docs/screenshots/login.png)
+<img width="1904" height="993" alt="image" src="https://github.com/user-attachments/assets/762cb921-120c-4fa7-ba83-838989f3319c" />
+
 
 ### User Dashboard
-![User Dashboard](./docs/screenshots/dashboard-user.png)
+<img width="1904" height="991" alt="image" src="https://github.com/user-attachments/assets/8043235b-70b6-4b07-9628-a298e18c74cd" />
+
 
 ### Manager Dashboard
-![Manager Dashboard](./docs/screenshots/dashboard-manager.png)
+<img width="1904" height="991" alt="image" src="https://github.com/user-attachments/assets/b8d214f7-abd9-4112-8308-53b9e08734b1" />
+
 
 ### Admin Dashboard
-![Admin Dashboard](./docs/screenshots/dashboard-admin.png)
+<img width="1900" height="993" alt="image" src="https://github.com/user-attachments/assets/92882d4a-8c8f-408f-84b9-278651b1b10f" />
+
 
 ### Profile Page
-![Profile Page](./docs/screenshots/profile.png)
+<img width="1905" height="990" alt="image" src="https://github.com/user-attachments/assets/255f4dfe-9545-4252-a3b1-14366f35c3e0" />
+
 
 ## API Testing
 
