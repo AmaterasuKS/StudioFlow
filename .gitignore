@@ -1,0 +1,16 @@
+# Build artifacts
+**/bin/
+**/obj/
+
+# Local secrets and environment files
+.env
+.env.*
+!.env.example
+
+# Local ASP.NET Core settings (do not commit real secrets)
+**/appsettings.Local.json
+**/appsettings.*.local.json
+
+# User-specific files
+*.user
+*.suo

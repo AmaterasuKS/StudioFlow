@@ -36,6 +36,14 @@ var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? "StudioFlow";
 var jwtAudience = builder.Configuration["Jwt:Audience"] ?? "StudioFlow.Client";
 var tokenExpirationSeconds = builder.Configuration.GetValue<int>("Jwt:ExpirationMinutes", 60) * 60;
 
+// Security note:
+// Real JWT secrets/tokens must never be committed to git.
+// Use environment variables or a secret manager (e.g., dotnet user-secrets, Key Vault, AWS Secrets Manager).
+if (string.Equals(jwtSecretKey, "your-secret-key-min-32-characters-long!!!", StringComparison.Ordinal))
+{
+    builder.Logging.AddConsole();
+}
+
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -65,6 +73,11 @@ builder.Services.AddDbContext<StudioFlowDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
+
+if (string.Equals(jwtSecretKey, "your-secret-key-min-32-characters-long!!!", StringComparison.Ordinal))
+{
+    app.Logger.LogWarning("Default JWT secret is in use. Configure Jwt__SecretKey via environment or secret manager.");
+}
 
 app.UseSwagger();
 app.UseSwaggerUI();
