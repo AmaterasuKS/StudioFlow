@@ -16,13 +16,18 @@ public class BookingService
 
     public async Task<List<BookingDto>> GetUserBookingsAsync(int userId)
     {
-        return await _dbContext.Bookings
+        var bookings = await _dbContext.Bookings
             .AsNoTracking()
             .Where(b => b.UserId == userId)
             .OrderByDescending(b => b.BookingDate)
-            .ThenByDescending(b => b.StartTime)
             .Select(MapBookingDtoExpression())
             .ToListAsync();
+
+        // SQLite cannot translate TimeSpan ordering in SQL, so perform this part in memory.
+        return bookings
+            .OrderByDescending(b => b.BookingDate)
+            .ThenByDescending(b => b.StartTime)
+            .ToList();
     }
 
     public async Task<BookingDto?> GetBookingByIdAsync(int bookingId)

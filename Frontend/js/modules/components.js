@@ -24,41 +24,48 @@
     return role || "Guest";
   }
 
-  function createLink(path, label, activePath) {
+  function createLink(path, label, activePath, mode = "nav") {
     const active = activePath === path;
-    const base = "rounded-lg px-3 py-2 text-sm transition";
+    const baseNav = "rounded-lg px-3 py-2 text-sm transition";
+    const baseSidebar = "block w-full rounded-lg px-3 py-2.5 text-sm font-medium transition";
+    const base = mode === "sidebar" ? baseSidebar : baseNav;
+
     const cls = active
-      ? `${base} bg-sky-500/20 text-sky-300`
-      : `${base} text-slate-200 hover:bg-slate-800 hover:text-white`;
+      ? mode === "sidebar"
+        ? `${base} border border-rose-300/40 bg-gradient-to-r from-rose-600/25 to-red-600/20 text-rose-100 shadow-[0_8px_18px_rgba(225,29,72,0.26)]`
+        : `${base} bg-rose-500/20 text-rose-200`
+      : mode === "sidebar"
+        ? `${base} border border-slate-700/60 text-slate-200 hover:border-rose-400/45 hover:bg-slate-800/80 hover:text-white`
+        : `${base} text-slate-200 hover:bg-slate-800 hover:text-white`;
     return `<a href="${path}" data-link class="${cls}">${label}</a>`;
   }
 
   function getNavbarLinks(user) {
     if (!user) {
       return [
-        { path: "/", label: "Главная" },
-        { path: "/login", label: "Вход" },
-        { path: "/register", label: "Регистрация" }
+        { path: "/", label: "Home" },
+        { path: "/login", label: "Login" },
+        { path: "/register", label: "Register" }
       ];
     }
 
     const role = normalizeRole(user.role).toLowerCase();
     if (role === "admin") {
       return [
-        { path: "/admin", label: "Панель" },
-        { path: "/admin", label: "Пользователи" },
-        { path: "/admin", label: "Статистика" }
+        { path: "/admin", label: "Admin Panel" },
+        { path: "/admin", label: "Users" },
+        { path: "/admin", label: "Statistics" }
       ];
     }
     if (role === "manager") {
       return [
         { path: "/manager", label: "Dashboard" },
-        { path: "/bookings", label: "Список бронирований" }
+        { path: "/bookings", label: "Bookings" }
       ];
     }
     return [
       { path: "/dashboard", label: "Dashboard" },
-      { path: "/bookings", label: "Мои бронирования" }
+      { path: "/bookings", label: "My Bookings" }
     ];
   }
 
@@ -81,22 +88,22 @@
     if (desktop) {
       desktop.innerHTML = links.map((x) => createLink(x.path, x.label, activePath)).join("");
       if (user) {
-        desktop.insertAdjacentHTML("beforeend", createLink("/profile", "Профиль", activePath));
+        desktop.insertAdjacentHTML("beforeend", createLink("/profile", "Profile", activePath));
         desktop.insertAdjacentHTML(
           "beforeend",
-          '<button id="navbar-logout-inline" type="button" class="rounded-lg bg-rose-500 px-3 py-2 text-sm text-white">Выход</button>'
+          '<button id="navbar-logout-inline" type="button" class="rounded-lg bg-rose-600 px-3 py-2 text-sm text-white shadow-[0_8px_18px_rgba(190,24,93,0.3)]">Logout</button>'
         );
       }
     }
 
     if (mobile) {
       const mobileLinks = [...links];
-      if (user) mobileLinks.push({ path: "/profile", label: "Профиль" });
+      if (user) mobileLinks.push({ path: "/profile", label: "Profile" });
       mobile.innerHTML = mobileLinks.map((x) => createLink(x.path, x.label, activePath)).join("");
       if (user) {
         mobile.insertAdjacentHTML(
           "beforeend",
-          '<button id="navbar-logout-mobile" type="button" class="w-full rounded-lg bg-rose-500 px-3 py-2 text-left text-sm text-white">Выход</button>'
+          '<button id="navbar-logout-mobile" type="button" class="w-full rounded-lg bg-rose-600 px-3 py-2 text-left text-sm text-white shadow-[0_8px_18px_rgba(190,24,93,0.3)]">Logout</button>'
         );
       }
     }
@@ -140,14 +147,14 @@
 
     const items = [
       { path: "/dashboard", label: "Dashboard", visible: !!user },
-      { path: "/bookings", label: "Бронирования", visible: !!user },
-      { path: "/profile", label: "Профиль", visible: !!user },
+      { path: "/bookings", label: "Bookings", visible: !!user },
+      { path: "/profile", label: "Profile", visible: !!user },
       { path: "/manager", label: "Manager", visible: role === "manager" || role === "admin" },
       { path: "/admin", label: "Admin", visible: role === "admin" }
     ].filter((x) => x.visible);
 
     if (linksContainer) {
-      linksContainer.innerHTML = items.map((x) => createLink(x.path, x.label, activePath)).join("");
+      linksContainer.innerHTML = items.map((x) => createLink(x.path, x.label, activePath, "sidebar")).join("");
     }
 
     toggle?.addEventListener("click", () => {

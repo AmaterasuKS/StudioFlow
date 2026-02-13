@@ -33,11 +33,11 @@
       const submit = document.getElementById("login-submit");
 
       if (!email || !email.includes("@")) {
-        showNotification("Введите корректный email.", "error");
+        showNotification("Enter a valid email address.", "error");
         return;
       }
       if (!password || password.length < 6) {
-        showNotification("Пароль должен быть минимум 6 символов.", "error");
+        showNotification("Password must be at least 6 characters.", "error");
         return;
       }
 
@@ -48,9 +48,9 @@
       } catch (error) {
         const msg = (error?.message || "").toLowerCase();
         if (msg.includes("invalid") || msg.includes("401")) {
-          showNotification("Неверный пароль или email", "error");
+          showNotification("Invalid email or password.", "error");
         } else {
-          showNotification(error.message || "Ошибка входа", "error");
+          showNotification(error.message || "Login failed.", "error");
         }
       } finally {
         setLoading(submit, false, "Sign in", "Signing in...");
@@ -72,29 +72,29 @@
       const submit = document.getElementById("register-submit");
 
       if (!firstName || !lastName || !email || !password || !confirmPassword) {
-        showNotification("Заполни все поля.", "error");
+        showNotification("Please fill in all fields.", "error");
         return;
       }
       if (!email.includes("@")) {
-        showNotification("Введите корректный email.", "error");
+        showNotification("Enter a valid email address.", "error");
         return;
       }
       if (password.length < 6) {
-        showNotification("Пароль должен быть минимум 6 символов.", "error");
+        showNotification("Password must be at least 6 characters.", "error");
         return;
       }
       if (password !== confirmPassword) {
-        showNotification("Пароли не совпадают.", "error");
+        showNotification("Passwords do not match.", "error");
         return;
       }
 
       try {
         setLoading(submit, true, "Create account", "Creating...");
         await window.authService.register({ firstName, lastName, email, password, confirmPassword });
-        showNotification("Регистрация успешна. Войди в аккаунт.", "success");
+        showNotification("Registration successful. Please sign in.", "success");
         await window.router.navigateTo("/login");
       } catch (error) {
-        showNotification(error.message || "Ошибка регистрации", "error");
+        showNotification(error.message || "Registration failed.", "error");
       } finally {
         setLoading(submit, false, "Create account", "Creating...");
       }
@@ -177,7 +177,7 @@
         bookings = (await window.apiService.getBookings()) || [];
         renderBookings(bookings);
       } catch (error) {
-        showNotification(error.message || "Ошибка загрузки бронирований", "error");
+        showNotification(error.message || "Failed to load bookings.", "error");
       } finally {
         loading.classList.add("hidden");
       }
@@ -190,7 +190,7 @@
         showNotification("Booking cancelled", "success");
         await loadUserBookings();
       } catch (error) {
-        showNotification(error.message || "Не удалось отменить бронирование", "error");
+        showNotification(error.message || "Failed to cancel booking.", "error");
       }
     }
 
@@ -244,7 +244,7 @@
         await closeBookingModal();
         await loadUserBookings();
       } catch (error) {
-        showNotification(error.message || "Не удалось создать бронирование", "error");
+        showNotification(error.message || "Failed to create booking.", "error");
       } finally {
         setLoading(submit, false, "Book now", "Booking...");
       }
@@ -317,7 +317,7 @@
         await loadManagerBookings();
         await updateChart();
       } catch (error) {
-        showNotification(error.message || "Не удалось подтвердить", "error");
+        showNotification(error.message || "Failed to confirm booking.", "error");
       }
     }
 
@@ -346,7 +346,7 @@
       const items = Object.entries(byDay)
         .sort(([a], [b]) => Number(a) - Number(b))
         .slice(-10)
-        .map(([d, t]) => `<div class="flex flex-col items-center gap-1"><div class="w-6 rounded-t bg-sky-400" style="height:${Math.max(8, Math.min(130, Number(t)))}px"></div><span class="text-xs text-slate-400">${d}</span></div>`)
+        .map(([d, t]) => `<div class="flex flex-col items-center gap-1"><div class="w-6 rounded-t bg-rose-400" style="height:${Math.max(8, Math.min(130, Number(t)))}px"></div><span class="text-xs text-slate-400">${d}</span></div>`)
         .join("");
 
       chart.innerHTML = items || '<p class="text-sm text-slate-400">No chart data.</p>';
@@ -358,7 +358,7 @@
       await loadStats();
       await updateChart();
     } catch (error) {
-      showNotification(error.message || "Ошибка загрузки manager dashboard", "error");
+      showNotification(error.message || "Failed to load manager dashboard.", "error");
     } finally {
       loading.classList.add("hidden");
     }
@@ -420,7 +420,7 @@
         await loadAllUsers();
         await loadStats();
       } catch (error) {
-        showNotification(error.message || "Не удалось удалить пользователя", "error");
+        showNotification(error.message || "Failed to delete user.", "error");
       }
     }
 
@@ -465,7 +465,7 @@
       await loadAllUsers();
       await loadStats();
     } catch (error) {
-      showNotification(error.message || "Ошибка admin dashboard", "error");
+      showNotification(error.message || "Failed to load admin dashboard.", "error");
     } finally {
       loading.classList.add("hidden");
     }
@@ -544,7 +544,7 @@
       loading.classList.remove("hidden");
       await loadProfile();
     } catch (error) {
-      showNotification(error.message || "Ошибка профиля", "error");
+      showNotification(error.message || "Failed to load profile.", "error");
     } finally {
       loading.classList.add("hidden");
     }
@@ -560,7 +560,26 @@
   }
 
   window.pageInitializers = {
-    landing: async () => {},
+    landing: async () => {
+      const primary = document.getElementById("landing-primary-cta");
+      const secondary = document.getElementById("landing-secondary-cta");
+      const isAuth = window.authService.isAuthenticated();
+
+      if (primary) {
+        primary.setAttribute("href", isAuth ? "/dashboard" : "/login");
+        primary.textContent = isAuth ? "Open Dashboard" : "Start Booking";
+      }
+
+      if (secondary) {
+        if (isAuth) {
+          secondary.setAttribute("href", "/bookings");
+          secondary.textContent = "Open Bookings";
+        } else {
+          secondary.setAttribute("href", "/register");
+          secondary.textContent = "Create Account";
+        }
+      }
+    },
     login: initLoginPage,
     register: initRegisterPage,
     "dashboard-user": initUserDashboardPage,

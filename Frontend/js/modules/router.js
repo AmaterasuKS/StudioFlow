@@ -93,13 +93,13 @@
       return;
     }
 
-    await loadPage(route.page);
-    await initializePage(route.page);
     currentRoute = normalizedPath;
-
     if (pushState) {
       history.pushState({}, "", normalizedPath);
     }
+
+    await loadPage(route.page);
+    await initializePage(route.page);
   }
 
   async function handleNavigation(event) {
