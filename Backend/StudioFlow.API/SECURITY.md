@@ -2,6 +2,11 @@
 
 This project keeps real secrets out of git.
 
+## Data authenticity notice
+- All seeded users, emails, names, hashes, and studio details in this repository are fictional sample data.
+- These values exist only to verify application behavior during development/testing.
+- Do not treat sample identities as real people or production identities.
+
 ## Do not commit
 - `Jwt__SecretKey`
 - Database passwords/connection strings with credentials

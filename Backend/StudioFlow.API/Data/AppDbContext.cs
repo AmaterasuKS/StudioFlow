@@ -37,6 +37,10 @@ public class AppDbContext : DbContext
             .Property(b => b.TotalPrice)
             .HasPrecision(18, 2);
 
+        // Demo-only seed data:
+        // All identities, credentials, emails, studio names, and business values below are fictional
+        // and intended strictly for development/testing scenarios.
+        // Do not treat seeded credentials as production accounts.
         var seedDate = new DateTime(2026, 2, 13, 12, 0, 0, DateTimeKind.Utc);
 
         modelBuilder.Entity<Studio>().HasData(
@@ -76,6 +80,7 @@ public class AppDbContext : DbContext
             {
                 Id = 1,
                 Email = "manager@studioflow.local",
+                // Demo hash only (fictional test account).
                 PasswordHash = "$2a$11$SpRXyX1x1UB2Pwc6w9Qv/.jICpr2vR8M8h9Gw0L7N1Y1wD4xM7RLW",
                 FirstName = "Test",
                 LastName = "Manager",
@@ -87,6 +92,7 @@ public class AppDbContext : DbContext
             {
                 Id = 2,
                 Email = "admin@studioflow.local",
+                // Demo hash only (fictional test account).
                 PasswordHash = "$2a$11$2fS8lktQm7f9m8Yx1Bdr9eV1LwxlHriB/9MUk8DJm9DB4UED9f9Hi",
                 FirstName = "Test",
                 LastName = "Admin",
