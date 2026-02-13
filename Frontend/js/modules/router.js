@@ -47,6 +47,7 @@
     if (window.componentService) {
       await window.componentService.loadNavbar();
       await window.componentService.loadSidebar();
+      await window.componentService.loadFooter();
       await window.componentService.updateNavbarUser(await getCurrentUser());
     }
 
