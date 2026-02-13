@@ -17,7 +17,7 @@
     removeToken();
     removeUser();
     currentUser = null;
-    window.location.href = "index.html";
+    window.location.href = "/";
   }
 
   function register(data) {

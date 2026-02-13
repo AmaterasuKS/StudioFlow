@@ -12,8 +12,8 @@
   }
 
   function redirectToLogin() {
-    const target = "pages/login.html";
-    if (!window.location.pathname.endsWith(target)) {
+    const target = "/login";
+    if (window.location.pathname !== target) {
       window.location.href = target;
     }
   }
