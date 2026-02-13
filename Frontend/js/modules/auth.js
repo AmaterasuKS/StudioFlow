@@ -17,6 +17,13 @@
   }
 
   function authorize() {
+    const token = getToken();
+    if (!token) {
+      removeUser();
+      currentUser = null;
+      return null;
+    }
+
     currentUser = normalizeUser(getUser());
     if (currentUser) setUser(currentUser);
     return currentUser;
@@ -51,6 +58,12 @@
   }
 
   function getCurrentUser() {
+    if (!getToken()) {
+      removeUser();
+      currentUser = null;
+      return null;
+    }
+
     if (!currentUser) {
       currentUser = normalizeUser(getUser());
       if (currentUser) setUser(currentUser);

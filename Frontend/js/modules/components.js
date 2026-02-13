@@ -73,7 +73,8 @@
     const container = document.getElementById("navbar");
     if (!container) return;
 
-    const user = window.authService.getCurrentUser();
+    const isAuth = window.authService.isAuthenticated();
+    const user = isAuth ? window.authService.getCurrentUser() : null;
     container.innerHTML = await fetchTemplate("./components/navbar.html");
 
     const activePath = window.location.pathname || "/";
@@ -137,7 +138,8 @@
     const container = document.getElementById("sidebar");
     if (!container) return;
 
-    const user = window.authService.getCurrentUser();
+    const isAuth = window.authService.isAuthenticated();
+    const user = isAuth ? window.authService.getCurrentUser() : null;
     container.innerHTML = await fetchTemplate("./components/sidebar.html");
 
     const role = normalizeRole(user?.role).toLowerCase();

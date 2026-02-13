@@ -8,6 +8,11 @@ using StudioFlow.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Keep logging portable for local/dev environments (no Windows EventLog requirement).
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddDebug();
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -78,6 +83,13 @@ builder.Services.AddScoped<BookingService>();
 builder.Services.AddScoped<UserService>();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    dbContext.Database.Migrate();
+    await DatabaseSeeder.SeedAsync(dbContext);
+}
 
 if (string.Equals(jwtSecretKey, "your-secret-key-min-32-characters-long!!!", StringComparison.Ordinal))
 {

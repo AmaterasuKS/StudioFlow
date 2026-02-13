@@ -100,4 +100,5 @@ curl -X GET "$BASE_URL/api/users" \
 - Manager: `manager@studioflow.com` / `password123`
 - User: `user@studioflow.com` / `password123`
 
+Admin and Manager accounts are auto-seeded on backend startup.
 If the `User` account does not exist yet, create it via `POST /api/auth/register`.
