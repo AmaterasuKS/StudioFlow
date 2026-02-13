@@ -52,3 +52,23 @@
     </div>
   </section>
 </main>
+
+<div id="role-modal" class="fixed inset-0 z-40 hidden items-center justify-center bg-slate-950/70 p-4">
+  <div class="sf-card w-full max-w-md p-6">
+    <h3 class="text-lg font-semibold">Change User Role</h3>
+    <p class="mt-1 text-sm text-slate-400">Select a new role and apply changes.</p>
+    <input type="hidden" id="role-user-id" />
+    <div class="mt-4">
+      <label for="role-select" class="mb-1 block text-xs uppercase tracking-wide text-slate-400">Role</label>
+      <select id="role-select">
+        <option>User</option>
+        <option>Manager</option>
+        <option>Admin</option>
+      </select>
+    </div>
+    <div class="mt-5 flex justify-end gap-2">
+      <button id="role-cancel" type="button" class="bg-slate-700 text-slate-100">Cancel</button>
+      <button id="role-save" type="button">Save role</button>
+    </div>
+  </div>
+</div>

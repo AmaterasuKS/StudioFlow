@@ -124,6 +124,22 @@
     return fetchAPI("DELETE", `/users/${userId}`);
   }
 
+  function updateUserRole(userId, role) {
+    return fetchAPI("PUT", `/users/${userId}/role`, { role }).then(getApiData);
+  }
+
+  function updateProfile(payload) {
+    return fetchAPI("PUT", "/users/profile", payload).then(getApiData);
+  }
+
+  function changePassword(currentPassword, newPassword, confirmPassword) {
+    return fetchAPI("PUT", "/users/password", {
+      currentPassword,
+      newPassword,
+      confirmPassword
+    }).then(getApiData);
+  }
+
   window.apiService = {
     fetchAPI,
     register,
@@ -135,6 +151,9 @@
     updateBookingStatus,
     getStudios,
     getAllUsers,
-    deleteUser
+    deleteUser,
+    updateUserRole,
+    updateProfile,
+    changePassword
   };
 })();

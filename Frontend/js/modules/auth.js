@@ -30,6 +30,10 @@
   }
 
   function logout() {
+    if (window.app && typeof window.app.logout === "function") {
+      window.app.logout();
+      return;
+    }
     removeToken();
     removeUser();
     currentUser = null;

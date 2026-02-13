@@ -41,32 +41,45 @@
     </div>
 
     <div class="sf-card p-6">
-      <h2 class="text-xl font-semibold">Новое бронирование</h2>
-      <form id="new-booking-form" class="mt-4 grid gap-4 md:grid-cols-2">
-        <div class="md:col-span-2">
-          <label for="booking-studio" class="mb-1 block text-xs uppercase tracking-wide text-slate-400">Studio</label>
-          <select id="booking-studio" required></select>
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-semibold">Новое бронирование</h2>
+        <button id="open-booking-modal" type="button">Create booking</button>
+      </div>
+      <p class="mt-2 text-sm text-slate-400">Use modal form to create a booking with real-time price calculation.</p>
+    </div>
+
+    <div id="booking-modal" class="fixed inset-0 z-40 hidden items-center justify-center bg-slate-950/70 p-4">
+      <div class="sf-card w-full max-w-xl p-6">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-semibold">Create Booking</h3>
+          <button id="close-booking-modal" type="button" class="bg-slate-700 px-3 py-1 text-slate-100">Close</button>
         </div>
-        <div>
-          <label for="booking-date" class="mb-1 block text-xs uppercase tracking-wide text-slate-400">Date</label>
-          <input id="booking-date" type="date" required />
-        </div>
-        <div>
-          <label for="booking-start" class="mb-1 block text-xs uppercase tracking-wide text-slate-400">Start time</label>
-          <input id="booking-start" type="time" required />
-        </div>
-        <div>
-          <label for="booking-end" class="mb-1 block text-xs uppercase tracking-wide text-slate-400">End time</label>
-          <input id="booking-end" type="time" required />
-        </div>
-        <div>
-          <p class="mb-1 text-xs uppercase tracking-wide text-slate-400">Calculated price</p>
-          <p id="booking-price" class="rounded border border-slate-700 bg-slate-900 px-3 py-2 font-semibold">$0.00</p>
-        </div>
-        <div class="md:col-span-2">
-          <button id="booking-submit" type="submit">Book now</button>
-        </div>
-      </form>
+        <form id="new-booking-form" class="mt-4 grid gap-4 md:grid-cols-2">
+          <div class="md:col-span-2">
+            <label for="booking-studio" class="mb-1 block text-xs uppercase tracking-wide text-slate-400">Studio</label>
+            <select id="booking-studio" required></select>
+          </div>
+          <div>
+            <label for="booking-date" class="mb-1 block text-xs uppercase tracking-wide text-slate-400">Date</label>
+            <input id="booking-date" type="date" required />
+          </div>
+          <div>
+            <label for="booking-start" class="mb-1 block text-xs uppercase tracking-wide text-slate-400">Start time</label>
+            <input id="booking-start" type="time" required />
+          </div>
+          <div>
+            <label for="booking-end" class="mb-1 block text-xs uppercase tracking-wide text-slate-400">End time</label>
+            <input id="booking-end" type="time" required />
+          </div>
+          <div>
+            <p class="mb-1 text-xs uppercase tracking-wide text-slate-400">Calculated price</p>
+            <p id="booking-price" class="rounded border border-slate-700 bg-slate-900 px-3 py-2 font-semibold">$0.00</p>
+          </div>
+          <div class="md:col-span-2">
+            <button id="booking-submit" type="submit">Book now</button>
+          </div>
+        </form>
+      </div>
     </div>
   </section>
 </main>
