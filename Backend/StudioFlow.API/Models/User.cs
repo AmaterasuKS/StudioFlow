@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
 
 namespace StudioFlow.API.Models;
 
@@ -10,7 +9,6 @@ public enum UserRole
     Admin = 2
 }
 
-[Index(nameof(Email), IsUnique = true)]
 public class User
 {
     [Key]
