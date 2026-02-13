@@ -1,8 +1,20 @@
 (function () {
   async function fetchTemplate(path) {
-    const response = await fetch(path);
-    if (!response.ok) throw new Error(`Template not found: ${path}`);
-    return response.text();
+    const candidates = [path.startsWith("./") ? `/${path.slice(2)}` : path, path];
+
+    for (const candidate of candidates) {
+      const response = await fetch(candidate);
+      if (!response.ok) continue;
+      const text = await response.text();
+
+      // Guard against SPA fallback returning full index document.
+      const looksLikeFullDocument = /<html[\s>]/i.test(text) && /<body[\s>]/i.test(text);
+      if (looksLikeFullDocument) continue;
+
+      return text;
+    }
+
+    throw new Error(`Template not found: ${path}`);
   }
 
   function normalizeRole(role) {
@@ -111,7 +123,7 @@
 
     burger?.addEventListener("click", () => {
       mobile?.classList.toggle("hidden");
-    }
+    });
   }
 
   async function loadSidebar() {

@@ -34,12 +34,33 @@
     const app = document.getElementById("app");
     if (!app) throw new Error("App container #app was not found.");
 
-    const response = await fetch(`./pages/${pageName}.html`);
-    if (!response.ok) {
-      throw new Error(`Page not found: ${pageName}`);
+    const candidates = [`/pages/${pageName}.html`, `./pages/${pageName}.html`];
+    let html = null;
+    let gotFallbackDocument = false;
+
+    for (const path of candidates) {
+      const response = await fetch(path);
+      if (!response.ok) continue;
+      const text = await response.text();
+
+      // When static server fallback is enabled, missing fragments may return index.html with 200.
+      const looksLikeFullDocument = /<html[\s>]/i.test(text) && /<body[\s>]/i.test(text);
+      if (looksLikeFullDocument) {
+        gotFallbackDocument = true;
+        continue;
+      }
+
+      html = text;
+      break;
     }
 
-    const html = await response.text();
+    if (!html) {
+      if (gotFallbackDocument) {
+        throw new Error(`Page fragment not found: ${pageName}.html (server returned index fallback). Run frontend without -s single-page rewrite.`);
+      }
+      throw new Error(`Page fragment not found: ${pageName}.html`);
+    }
+
     app.innerHTML = html;
   }
 
