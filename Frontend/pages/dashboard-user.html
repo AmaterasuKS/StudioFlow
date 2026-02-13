@@ -1,8 +1,72 @@
 <div id="navbar"></div>
 <main class="mx-auto grid w-[min(1100px,96%)] grid-cols-1 gap-6 py-8 md:grid-cols-[240px_1fr]">
   <div id="sidebar"></div>
-  <section class="sf-card p-6">
-    <h1 class="text-2xl font-bold">User Dashboard</h1>
-    <p class="mt-2 text-slate-300">Overview of your bookings and upcoming sessions.</p>
+  <section class="space-y-6">
+    <div class="sf-card p-6">
+      <div class="flex items-center justify-between">
+        <h1 class="text-2xl font-bold">Мои бронирования</h1>
+        <span id="user-dashboard-loading" class="hidden text-sm text-slate-400">Loading...</span>
+      </div>
+      <div class="mt-4 grid gap-3 md:grid-cols-2">
+        <div>
+          <label for="filter-status" class="mb-1 block text-xs uppercase tracking-wide text-slate-400">Filter by status</label>
+          <select id="filter-status">
+            <option value="all">All</option>
+            <option value="pending">Pending</option>
+            <option value="confirmed">Confirmed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+        <div>
+          <label for="filter-date" class="mb-1 block text-xs uppercase tracking-wide text-slate-400">Filter by date</label>
+          <input id="filter-date" type="date" />
+        </div>
+      </div>
+      <div class="mt-5 overflow-x-auto">
+        <table class="min-w-full text-left text-sm">
+          <thead class="border-b border-slate-700 text-slate-400">
+            <tr>
+              <th class="px-3 py-2">Studio</th>
+              <th class="px-3 py-2">Date</th>
+              <th class="px-3 py-2">Time</th>
+              <th class="px-3 py-2">Status</th>
+              <th class="px-3 py-2">Price</th>
+              <th class="px-3 py-2">Action</th>
+            </tr>
+          </thead>
+          <tbody id="user-bookings-body"></tbody>
+        </table>
+        <p id="user-bookings-empty" class="hidden px-3 py-4 text-sm text-slate-400">No bookings found for selected filters.</p>
+      </div>
+    </div>
+
+    <div class="sf-card p-6">
+      <h2 class="text-xl font-semibold">Новое бронирование</h2>
+      <form id="new-booking-form" class="mt-4 grid gap-4 md:grid-cols-2">
+        <div class="md:col-span-2">
+          <label for="booking-studio" class="mb-1 block text-xs uppercase tracking-wide text-slate-400">Studio</label>
+          <select id="booking-studio" required></select>
+        </div>
+        <div>
+          <label for="booking-date" class="mb-1 block text-xs uppercase tracking-wide text-slate-400">Date</label>
+          <input id="booking-date" type="date" required />
+        </div>
+        <div>
+          <label for="booking-start" class="mb-1 block text-xs uppercase tracking-wide text-slate-400">Start time</label>
+          <input id="booking-start" type="time" required />
+        </div>
+        <div>
+          <label for="booking-end" class="mb-1 block text-xs uppercase tracking-wide text-slate-400">End time</label>
+          <input id="booking-end" type="time" required />
+        </div>
+        <div>
+          <p class="mb-1 text-xs uppercase tracking-wide text-slate-400">Calculated price</p>
+          <p id="booking-price" class="rounded border border-slate-700 bg-slate-900 px-3 py-2 font-semibold">$0.00</p>
+        </div>
+        <div class="md:col-span-2">
+          <button id="booking-submit" type="submit">Book now</button>
+        </div>
+      </form>
+    </div>
   </section>
 </main>

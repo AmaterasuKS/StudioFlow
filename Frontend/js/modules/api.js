@@ -1,4 +1,11 @@
 (function () {
+  function normalizeRole(role) {
+    if (role === 0 || role === "0") return "User";
+    if (role === 1 || role === "1") return "Manager";
+    if (role === 2 || role === "2") return "Admin";
+    return role || "User";
+  }
+
   function getApiData(payload) {
     if (payload && typeof payload === "object" && "data" in payload) {
       return payload.data;
@@ -73,7 +80,7 @@
         setUser({
           userId: result.userId,
           email: result.email,
-          role: result.role
+          role: normalizeRole(result.role)
         });
       }
       return result;

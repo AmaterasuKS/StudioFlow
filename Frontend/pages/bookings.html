@@ -2,7 +2,47 @@
 <main class="mx-auto grid w-[min(1100px,96%)] grid-cols-1 gap-6 py-8 md:grid-cols-[240px_1fr]">
   <div id="sidebar"></div>
   <section class="sf-card p-6">
-    <h1 class="text-2xl font-bold">Bookings</h1>
-    <p class="mt-2 text-slate-300">Create and manage your studio bookings.</p>
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <div>
+        <h1 class="text-2xl font-bold">Bookings</h1>
+        <p id="bookings-scope" class="mt-1 text-sm text-slate-400">Loading role scope...</p>
+      </div>
+      <span id="bookings-loading" class="hidden text-sm text-slate-400">Loading...</span>
+    </div>
+
+    <div class="mt-4 grid gap-3 md:grid-cols-2">
+      <div>
+        <label for="bookings-filter" class="mb-1 block text-xs uppercase tracking-wide text-slate-400">Status filter</label>
+        <select id="bookings-filter">
+          <option value="all">All</option>
+          <option value="pending">Pending</option>
+          <option value="confirmed">Confirmed</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+      </div>
+      <div>
+        <label for="bookings-sort" class="mb-1 block text-xs uppercase tracking-wide text-slate-400">Sort</label>
+        <select id="bookings-sort">
+          <option value="date-desc">Date: newest first</option>
+          <option value="date-asc">Date: oldest first</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="mt-5 overflow-x-auto">
+      <table class="min-w-full text-left text-sm">
+        <thead class="border-b border-slate-700 text-slate-400">
+          <tr>
+            <th class="px-3 py-2">Studio</th>
+            <th class="px-3 py-2">Date</th>
+            <th class="px-3 py-2">Time</th>
+            <th class="px-3 py-2">Status</th>
+            <th class="px-3 py-2">Price</th>
+            <th class="px-3 py-2">Action</th>
+          </tr>
+        </thead>
+        <tbody id="bookings-table-body"></tbody>
+      </table>
+    </div>
   </section>
 </main>

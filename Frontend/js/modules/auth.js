@@ -1,8 +1,24 @@
 (function () {
   let currentUser = null;
 
+  function normalizeRole(role) {
+    if (role === 0 || role === "0") return "User";
+    if (role === 1 || role === "1") return "Manager";
+    if (role === 2 || role === "2") return "Admin";
+    return role || "";
+  }
+
+  function normalizeUser(user) {
+    if (!user) return null;
+    return {
+      ...user,
+      role: normalizeRole(user.role)
+    };
+  }
+
   function authorize() {
-    currentUser = getUser();
+    currentUser = normalizeUser(getUser());
+    if (currentUser) setUser(currentUser);
     return currentUser;
   }
 
@@ -32,7 +48,8 @@
 
   function getCurrentUser() {
     if (!currentUser) {
-      currentUser = getUser();
+      currentUser = normalizeUser(getUser());
+      if (currentUser) setUser(currentUser);
     }
     return currentUser;
   }
@@ -48,7 +65,7 @@
   function hasRole(role) {
     const user = getCurrentUser();
     if (!user || !user.role) return false;
-    return String(user.role).toLowerCase() === String(role).toLowerCase();
+    return String(normalizeRole(user.role)).toLowerCase() === String(normalizeRole(role)).toLowerCase();
   }
 
   function canAccess(requiredRole) {
@@ -63,8 +80,8 @@
       admin: 3
     };
 
-    const current = rolePriority[String(user.role).toLowerCase()] || 0;
-    const required = rolePriority[String(requiredRole).toLowerCase()] || 0;
+    const current = rolePriority[String(normalizeRole(user.role)).toLowerCase()] || 0;
+    const required = rolePriority[String(normalizeRole(requiredRole)).toLowerCase()] || 0;
 
     return current >= required && required > 0;
   }

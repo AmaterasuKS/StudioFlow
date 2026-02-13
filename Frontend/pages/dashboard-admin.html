@@ -1,8 +1,54 @@
 <div id="navbar"></div>
 <main class="mx-auto grid w-[min(1100px,96%)] grid-cols-1 gap-6 py-8 md:grid-cols-[240px_1fr]">
   <div id="sidebar"></div>
-  <section class="sf-card p-6">
-    <h1 class="text-2xl font-bold">Admin Dashboard</h1>
-    <p class="mt-2 text-slate-300">Manage users, roles, and platform settings.</p>
+  <section class="space-y-6">
+    <div class="sf-card p-6">
+      <div class="flex items-center justify-between">
+        <h1 class="text-2xl font-bold">Admin Dashboard</h1>
+        <span id="admin-loading" class="hidden text-sm text-slate-400">Loading...</span>
+      </div>
+      <div class="mt-4 grid gap-4 sm:grid-cols-3">
+        <div class="rounded-lg border border-slate-700 bg-slate-900 p-4">
+          <p class="text-xs uppercase text-slate-500">Total users</p>
+          <p id="admin-stat-users" class="mt-2 text-2xl font-bold text-sky-300">0</p>
+        </div>
+        <div class="rounded-lg border border-slate-700 bg-slate-900 p-4">
+          <p class="text-xs uppercase text-slate-500">Total bookings</p>
+          <p id="admin-stat-bookings" class="mt-2 text-2xl font-bold text-amber-300">0</p>
+        </div>
+        <div class="rounded-lg border border-slate-700 bg-slate-900 p-4">
+          <p class="text-xs uppercase text-slate-500">Total revenue</p>
+          <p id="admin-stat-revenue" class="mt-2 text-2xl font-bold text-emerald-300">$0.00</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sf-card p-6">
+      <h2 class="text-xl font-semibold">User Management</h2>
+      <div class="mt-4 overflow-x-auto">
+        <table class="min-w-full text-left text-sm">
+          <thead class="border-b border-slate-700 text-slate-400">
+            <tr>
+              <th class="px-3 py-2">Email</th>
+              <th class="px-3 py-2">Name</th>
+              <th class="px-3 py-2">Role</th>
+              <th class="px-3 py-2">Change role</th>
+              <th class="px-3 py-2">Action</th>
+            </tr>
+          </thead>
+          <tbody id="admin-users-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="sf-card p-6">
+      <h2 class="text-xl font-semibold">Studio Management</h2>
+      <p class="mt-2 text-sm text-slate-400">Add studio management tools in the next stage if required.</p>
+    </div>
+
+    <div class="sf-card p-6">
+      <h2 class="text-xl font-semibold">Action Logs</h2>
+      <ul id="admin-logs" class="mt-3 space-y-2 text-sm"></ul>
+    </div>
   </section>
 </main>
