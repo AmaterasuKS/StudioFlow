@@ -14,3 +14,8 @@
 # User-specific files
 *.user
 *.suo
+
+# Local SQLite database files
+*.db
+*.db-shm
+*.db-wal

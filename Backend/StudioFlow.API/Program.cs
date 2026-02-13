@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using StudioFlow.API.Data;
+using StudioFlow.API.Middleware;
 using StudioFlow.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -83,11 +84,14 @@ if (string.Equals(jwtSecretKey, "your-secret-key-min-32-characters-long!!!", Str
     app.Logger.LogWarning("Default JWT secret is in use. Configure Jwt__SecretKey via environment or secret manager.");
 }
 
+app.UseMiddleware<ErrorHandlingMiddleware>();
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 app.UseCors("LocalhostCors");
+app.UseMiddleware<JwtMiddleware>();
 app.UseAuthentication();
 app.UseAuthorization();
 
